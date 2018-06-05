@@ -270,6 +270,7 @@ li,ul{
 }
 .navi i {
     font-size: 20px;
+    position:fixed ;
 }
 .label.label-primary {
     border-radius: 50%;
@@ -704,7 +705,7 @@ header {
 
 .footer {
     background: #428bca none repeat scroll 0 0;
-
+    position:fixed ;
     border-top: 4px solid #fcab0e;
     margin: 0;
     padding: 20px 0;

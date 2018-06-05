@@ -58,6 +58,20 @@
     <strong>Success!</strong> the file <strong>{{filename}} </strong> was sucessfully uploaded
   </div>
                     <div class="row">
+                        <div class="col-md-12  ">
+                            <div class="sales">
+                                <div class="row">
+         <div class="col-md-6  ">
+
+                            <h2> File header informations</h2><br/>
+                                    <div>{% include "header_smart.html" %}</div>
+                        </div>
+                                </div>
+                                </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
                         <div class="col-md-12 col-sm-5 col-xs-12 ">
 
                             <div class="sales">
@@ -71,21 +85,17 @@
                                         <span>Period:</span> Last Year
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a href="#">2012</a>
-                                        <a href="#">2014</a>
-                                        <a href="#">2015</a>
-                                        <a href="#">2016</a>
+                                        {% for item in sheet_names%}
+                                        <a href="#">{{item}}</a>
+                                        {% endfor %}
 
-
-
-                                        </select>
                                     </div>
                                 </div>
                         </div>
-                        <div class="col-md-2 offset-md-4 " >
+                        <!--<div class="col-md-2 offset-md-4 " >
                             <button type="button" class="btn btn-primary btn-lg">Search</button>
 
-                        </div>
+                        </div>-->
                                 </div>
                             </div>
                         <!--<div class="col-md-7 col-sm-7 col-xs-12 gutter">
