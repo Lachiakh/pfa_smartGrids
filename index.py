@@ -16,6 +16,11 @@ def index():
         return render_template('index.html')
 
 
+@app.route('/avg/<sheet>')
+def avg(sheet=None):
+    return render_template('avg.html')
+
+
 @app.route('/<sheet>/<column>/<column1>',methods=['POST','GET'])
 @app.route('/<sheet>/<column>')
 @app.route('/<sheet>')
@@ -32,14 +37,21 @@ def explore(sheet=None,argument=None,column=None,column1=None):
         agg_count(sheet_selection(sheet), column).to_html('templates/table_count.html')
         sns.set_style("whitegrid")
         ax = sns.barplot( y='Count', x=column,data=agg_count(sheet_selection(sheet), column).head())
-        ax.set(xlabel='\n Number of '+column)
+        ax.set(xlabel='\n Number of '+column )
         shutil.rmtree('static/img')
         os.makedirs('static/img', exist_ok=True)
         ax.figure.savefig('static/img/'+column+'.png')
-
     if argument is not None:
-        my_data = sheet_selection(sheet)
-        agg_count(my_data[my_data[column1] == argument], column).to_html('templates/table_count_dep.html')
+        try:
+            my_data = sheet_selection(sheet)
+            agg_count(my_data[my_data[column1] == int(argument)], column).to_html('templates/table_count_dep.html')
+            sns.set_style("whitegrid")
+            ax2 = sns.barplot(y='Count', x=column, data=agg_count(my_data[my_data[column1] == int(argument)], column).head())
+            ax2.set(xlabel='\n Number of ' + column + ' in ' + argument)
+            ax2.figure.savefig('static/img/'+ argument +'.png')
+        except ValueError:
+            return "Error: this graph can't be displayed <a href='"+"/"+sheet+"/"+column+"' > go to your page </a>"
+
     #agg_avg(sheet_selection(sheet),column).to_html('templates/table_avg.html')
     if 'filename' not in session:
             target = os.path.join(APP_ROOT,"files/")
