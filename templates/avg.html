@@ -53,9 +53,9 @@
                         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Exploration methods</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu">
                             <li><a href="/avg/{{sheet}}">Average</a></li>
-                            <li><a href="#">Pivot</a></li>
+                            <li><a href="/pivot/{{sheet}}">Pivot</a></li>
                             <li><a href="#">Visualisation by time</a></li>
-                            <li><a href="#">Regression</a></li>
+                            <li><a href="/regression/{{sheet}}">Regression</a></li>
                         </ul>
                     </li>
                     <li>
@@ -75,7 +75,7 @@
             <!-- Page Content Holder -->
             <div id="content">
 
-                <nav class="navbar navbar-default" >
+                <nav class="navbar navbar-default" style="width:900px;" >
                     <div class="container-fluid">
 
                         <div class="navbar-header">
@@ -85,91 +85,70 @@
                             </button>
                         </div>
 
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a href="#">Sheets</a></li>
                                 <li><a href="#">Columns</a></li>
                                 <li><a href="#">Explortion</a></li>
-                                <li><a href="#">Upload file</a></li>
+                                <li><a href="/">Upload file</a></li>
                             </ul>
                         </div>
                     </div>
                 </nav>
 
 
+
                                 <div class="line"></div>
-
-
-
-                 {% if sheet %}
-
-
-                <br/>
-                <div class="line"></div>
-                {% if column %}
-
-                            <div class="sales">
+                <br/><p class="h1">Average graph</p>
+<br/>
+                    <div class="sales">
                                 <div class="row">
                         <div class="col-md-4 ">
-                                <h3>Column argument </h3>
+                                <h2>please choose columns :</h2>
                         </div>
                         <div class="col-md-4">
                                 <div class="btn-group">
-                                    <button  class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span>Column:</span> {% if column1 %} {{column1}} {% else %} chose column {% endif %}
-                                    </button>
-                                    <div class="dropdown-menu" style="width:260px; height:200px; overflow: auto;">
-                                        {% for column1 in columns%}
-                                        <a href="/{{sheet}}/{{column}}/{{ column1 }}">{{column1}}</a>
-                                        {% endfor %}
 
-                                    </div>
+                                    <form action="/avg/{{sheet}}" method="POST">
+                                        <div class="form-group">
+                                            <select name="argument1" class="selectpicker btn btn-default" data-style="btn-primary" required>
+                                                <option value="" disabled selected hidden>Choose argument</option>
+                                                {% for column in columns%}
+                                                     <option value="{{column}}">{{column}}</option>
+                                                    {% endfor %}
+                                            </select>
+                                        <br/><br/>
+                                        <select name="argument2" class="selectpicker btn btn-default" data-style="btn-primary" required>
+                                            <option value="" disabled selected hidden>Choose average of</option>
+                                                {% for columnn in columns%}
+                                                     <option value="{{columnn}}" >{{columnn}}</option>
+                                                    {% endfor %}
+                                            </select>
+                                        <br/>
+
+                                        <br/>
+                                        <input style="width:100px;" class="btn btn-default" value="Submit" type="submit">
+                                            </div>
+                                    </form>
                                 </div>
+
                         </div>
-                        {% if column1 %}
-                                  <!-- Avec un bouton à gauche --><br/>
-                                  <div class="col-md-4">
-                                    <div  class="input-group">
-                                        <form action = "/{{sheet}}/{{column}}/{{ column1 }}" id="upload-form" method = 'POST'  >
-                                            <input style="width:100px;" type="text" class="form-control" name="argument" placeholder="chose argument">
-                                       <span class="input-group-btn">
-                                            <input style="width:100px;" class="btn btn-default" value="Submit" type="submit">Go</input>
-                                       </span>
-
-                                        </form>
-
+                                    {% if argument1 %}
+                                    <div class="row" >
+                                <div class="col-md-4" style="width:400px; height:200px; overflow: auto;">
+                            <div style="width:350px; height:500px; overflow: auto;">
+                                {% include "table_avg.html" %}
+                            </div></div>
+                                    <div class="col-md-6"><img src="/static/img/{{na}}.png" alt="avg graphe" height="500" width="500"/>
                                     </div>
-                                 </div>
-                         {% endif %}
+
+                        </div>
+                                    {% endif %}
 
                                 </div>
                             </div>
-                            {% if column1 %}<h2>Count <strong>{{column}}</strong> depends on <strong>{{column1}}</strong></h2>{% else %}
-                            <h2> Column count : <strong>{{column}}</strong> </h2>{% endif %}<br/><br/>
-                            {%if argument %}
-                        <div class="row">
-                                <div class="col-md-4">
-                            <div style="width:300px; height:500px; overflow: auto;">
-                                {% include "table_count_dep.html" %}
-                            </div>
-                                    </div>
-                                <div class="col-md-8"><img src= "static/img/{{argument}}.png" alt="count graphe" height="500" width="500"/>
-                                </div>
-                        </div>
-                            {%else%}
-                            <div class="row">
-                                <div class="col-md-4">
-                            <div style="width:300px; height:500px; overflow: auto;">
-                                {% include "table_count.html" %}
-                            </div>
-                                    </div>
-                                <div class="col-md-8"><img src="/static/img/{{column}}.png" alt="count graphe" height="500" width="500"/>
-                                </div>
-                        </div>
-                            {%endif%}
 
-                    {% endif %}
-                    {% endif %}
+
 
 
             </div>
